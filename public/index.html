@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Calculator Trainer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen active">
+        <div class="container">
+            <div class="welcome-content">
+                <h1>Math Calculator Trainer</h1>
+                <p class="welcome-description">
+                    Improve your math skills with personalized practice sessions. 
+                    Track your progress, analyze your mistakes, and build confidence through adaptive learning.
+                </p>
+                <div class="welcome-stats">
+                    <div class="stat-card">
+                        <h3 id="total-problems-solved">0</h3>
+                        <p>Problems Solved</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="overall-accuracy">0%</h3>
+                        <p>Overall Accuracy</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="current-streak">0</h3>
+                        <p>Current Streak</p>
+                    </div>
+                </div>
+                <button class="btn btn--primary btn--lg" onclick="showScreen('settings')">Start Practice</button>
+                <button class="btn btn--outline btn--lg" onclick="showScreen('progress')">View Progress</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settings-screen" class="screen">
+        <div class="container">
+            <div class="settings-content">
+                <h2>Customize Your Practice Session</h2>
+                
+                <div class="settings-grid">
+                    <div class="settings-group">
+                        <label class="form-label">Operations</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="addition" value="addition" checked>
+                                <span>Addition (+)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="subtraction" value="subtraction">
+                                <span>Subtraction (-)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="multiplication" value="multiplication">
+                                <span>Multiplication (×)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="division" value="division">
+                                <span>Division (÷)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="square" value="square">
+                                <span>Square (x²)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="sqrt" value="sqrt">
+                                <span>Square Root (√)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="cbrt" value="cbrt">
+                                <span>Cube Root (∛)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="trigonometry" value="trigonometry">
+                                <span>Trigonometry (sin, cos, tan)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <label class="form-label" for="difficulty">Difficulty Level</label>
+                        <select id="difficulty" class="form-control">
+                            <option value="beginner">Beginner (1-10)</option>
+                            <option value="easy" selected>Easy (1-50)</option>
+                            <option value="intermediate">Intermediate (1-100)</option>
+                            <option value="hard">Hard (1-500)</option>
+                            <option value="expert">Expert (1-1000)</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-group">
+                        <label class="form-label" for="timer">Timer per Problem</label>
+                        <select id="timer" class="form-control">
+                            <option value="0">No Timer</option>
+                            <option value="10">10 seconds</option>
+                            <option value="20">20 seconds</option>
+                            <option value="30">30 seconds</option>
+                            <option value="40">40 seconds</option>
+                            <option value="50">50 seconds</option>
+                            <option value="60" selected>1 minute</option>
+                            <option value="120">2 minutes</option>
+                            <option value="300">5 minutes</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-group">
+                        <label class="form-label" for="problem-count">Number of Problems</label>
+                        <select id="problem-count" class="form-control">
+                            <option value="5">5 problems</option>
+                            <option value="10" selected>10 problems</option>
+                            <option value="20">20 problems</option>
+                            <option value="50">50 problems</option>
+                            <option value="100">100 problems</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn btn--outline" onclick="showScreen('welcome')">Back</button>
+                    <button class="btn btn--primary" onclick="startPracticeSession()">Start Session</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Practice Screen -->
+    <div id="practice-screen" class="screen">
+        <div class="container">
+            <div class="practice-header">
+                <div class="progress-info">
+                    <span id="problem-counter">Problem 1 of 10</span>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="session-stats">
+                    <span class="stat">Accuracy: <span id="current-accuracy">100%</span></span>
+                    <span class="stat">Streak: <span id="session-streak">0</span></span>
+                    <span class="timer" id="problem-timer"></span>
+                </div>
+                <button class="btn btn--icon btn-close" onclick="endSession()" aria-label="End Session">&times;</button>
+            </div>
+
+            <div class="practice-content">
+                <div class="problem-display">
+                    <div id="problem-text" class="problem-text">5 + 3 = ?</div>
+                </div>
+
+                <div class="answer-section">
+                    <input type="number" id="answer-input" class="answer-input" placeholder="Enter your answer">
+                    <div id="multiple-choice-answers" class="multiple-choice-answers"></div>
+                    <button class="btn btn--primary btn--lg" onclick="checkAnswer()">Submit</button>
+                </div>
+
+                <div id="feedback" class="feedback hidden">
+                    <div class="feedback-content">
+                        <div id="feedback-icon" class="feedback-icon"></div>
+                        <div id="feedback-message" class="feedback-message"></div>
+                        <div id="feedback-explanation" class="feedback-explanation hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="practice-actions">
+                <button id="next-button" class="btn btn--secondary hidden" onclick="nextProblem()">Next Problem</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen">
+        <div class="container">
+            <div class="results-content">
+                <h2>Session Complete!</h2>
+                
+                <div class="results-summary">
+                    <div class="result-card">
+                        <h3 id="final-accuracy">85%</h3>
+                        <p>Final Accuracy</p>
+                    </div>
+                    <div class="result-card">
+                        <h3 id="problems-correct">8/10</h3>
+                        <p>Problems Correct</p>
+                    </div>
+                    <div class="result-card">
+                        <h3 id="average-time">1.2s</h3>
+                        <p>Average Time</p>
+                    </div>
+                    <div class="result-card">
+                        <h3 id="best-streak">5</h3>
+                        <p>Best Streak</p>
+                    </div>
+                </div>
+
+                <div class="achievements-section" id="achievements-section">
+                    <h3>New Achievements!</h3>
+                    <div id="new-achievements" class="achievements-list"></div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn--outline" onclick="showScreen('error-analysis')">Analyze Errors</button>
+                    <button class="btn btn--secondary" onclick="showScreen('settings')">Practice Again</button>
+                    <button class="btn btn--primary" onclick="showScreen('welcome')">Back to Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Analysis Screen -->
+    <div id="error-analysis-screen" class="screen">
+        <div class="container">
+            <div class="error-analysis-content">
+                <h2>Error Analysis</h2>
+                
+                <div class="error-summary">
+                    <div class="error-stats">
+                        <div class="error-stat">
+                            <h3 id="total-errors">2</h3>
+                            <p>Total Errors</p>
+                        </div>
+                        <div class="error-stat">
+                            <h3 id="error-rate">20%</h3>
+                            <p>Error Rate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-categories">
+                    <h3>Error Breakdown</h3>
+                    <div id="error-category-list" class="category-list"></div>
+                </div>
+
+                <div class="missed-problems">
+                    <h3>Problems You Missed</h3>
+                    <div id="missed-problems-list" class="problems-list"></div>
+                </div>
+
+                <div class="improvement-tips">
+                    <h3>Tips for Improvement</h3>
+                    <div id="tips-list" class="tips-list"></div>
+                </div>
+
+                <div class="error-actions">
+                    <button class="btn btn--outline" onclick="showScreen('results')">Back to Results</button>
+                    <button class="btn btn--primary" onclick="practiceWeakAreas()">Practice Weak Areas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Screen -->
+    <div id="progress-screen" class="screen">
+        <div class="container">
+            <div class="progress-content">
+                <h2>Your Progress</h2>
+                
+                <div class="progress-overview">
+                    <div class="progress-stat">
+                        <h3 id="lifetime-problems">150</h3>
+                        <p>Total Problems Solved</p>
+                    </div>
+                    <div class="progress-stat">
+                        <h3 id="lifetime-accuracy">87%</h3>
+                        <p>Overall Accuracy</p>
+                    </div>
+                    <div class="progress-stat">
+                        <h3 id="sessions-completed">12</h3>
+                        <p>Sessions Completed</p>
+                    </div>
+                </div>
+
+                <div class="achievements-display">
+                    <h3>Your Achievements</h3>
+                    <div id="all-achievements" class="achievements-grid"></div>
+                </div>
+
+                <div class="recent-sessions">
+                    <h3>Recent Sessions</h3>
+                    <div id="session-history" class="session-list"></div>
+                </div>
+
+                <div class="progress-actions">
+                    <button class="btn btn--primary" onclick="showScreen('welcome')">Back to Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for achievements -->
+    <div id="achievement-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Achievement Unlocked!</h3>
+            <div id="achievement-display">
+                <div class="achievement-icon">🏆</div>
+                <div class="achievement-info">
+                    <h4 id="achievement-name">Math Master</h4>
+                    <p id="achievement-description">Achieve 95% accuracy</p>
+                </div>
+            </div>
+            <button class="btn btn--primary" onclick="closeAchievementModal()">Continue</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

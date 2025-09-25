@@ -24,7 +24,7 @@ const gameData = {
         problemCounts: [5, 10, 20, 50, 100],
         numberRanges: {
             beginner: [1, 10],
-            easy: [1, 50], 
+            easy: [1, 50],
             intermediate: [1, 100],
             hard: [1, 500],
             expert: [1, 1000]
@@ -32,19 +32,19 @@ const gameData = {
     },
     errorCategories: [
         "calculation_error",
-        "careless_mistake", 
+        "careless_mistake",
         "conceptual_error",
         "time_pressure_error"
     ],
     achievements: [
-        {id: "accuracy_80", name: "Getting Better", description: "Achieve 80% accuracy", icon: "🎯"},
-        {id: "accuracy_90", name: "Almost Perfect", description: "Achieve 90% accuracy", icon: "⭐"},
-        {id: "accuracy_95", name: "Math Master", description: "Achieve 95% accuracy", icon: "🏆"},
-        {id: "streak_10", name: "Hot Streak", description: "Get 10 problems correct in a row", icon: "🔥"},
-        {id: "streak_25", name: "Unstoppable", description: "Get 25 problems correct in a row", icon: "⚡"},
-        {id: "problems_50", name: "Dedicated Learner", description: "Complete 50 problems", icon: "📚"},
-        {id: "problems_100", name: "Century Club", description: "Complete 100 problems", icon: "💯"},
-        {id: "problems_500", name: "Math Champion", description: "Complete 500 problems", icon: "👑"}
+        { id: "accuracy_80", name: "Getting Better", description: "Achieve 80% accuracy", icon: "🎯" },
+        { id: "accuracy_90", name: "Almost Perfect", description: "Achieve 90% accuracy", icon: "⭐" },
+        { id: "accuracy_95", name: "Math Master", description: "Achieve 95% accuracy", icon: "🏆" },
+        { id: "streak_10", name: "Hot Streak", description: "Get 10 problems correct in a row", icon: "🔥" },
+        { id: "streak_25", name: "Unstoppable", description: "Get 25 problems correct in a row", icon: "⚡" },
+        { id: "problems_50", name: "Dedicated Learner", description: "Complete 50 problems", icon: "📚" },
+        { id: "problems_100", name: "Century Club", description: "Complete 100 problems", icon: "💯" },
+        { id: "problems_500", name: "Math Champion", description: "Complete 500 problems", icon: "👑" }
     ],
     encouragingMessages: [
         "Great job!", "Excellent work!", "You're getting better!", "Keep it up!",
@@ -98,13 +98,13 @@ function showScreen(screenId) {
         allScreens.forEach(screen => {
             screen.classList.remove('active');
         });
-        
+
         // Show target screen
         const targetScreen = document.getElementById(`${screenId}-screen`);
         if (targetScreen) {
             targetScreen.classList.add('active');
             appState.currentScreen = screenId;
-            
+
             // Update screen-specific content
             if (screenId === 'welcome') {
                 updateWelcomeStats();
@@ -129,7 +129,7 @@ function startPracticeSession() {
             alert('Please select at least one operation type.');
             return;
         }
-        
+
         appState.currentSession = {
             settings: settings,
             problems: [],
@@ -141,7 +141,7 @@ function startPracticeSession() {
             bestStreak: 0,
             errors: []
         };
-        
+
         generateProblems();
         showScreen('practice');
         loadNextProblem();
@@ -157,7 +157,7 @@ function getSessionSettings() {
     checkboxes.forEach(checkbox => {
         operations.push(checkbox.value);
     });
-    
+
     return {
         operations: operations,
         difficulty: document.getElementById('difficulty').value,
@@ -175,9 +175,9 @@ function generateProblems() {
     const session = appState.currentSession;
     const { operations, difficulty, problemCount } = session.settings;
     const range = gameData.defaultSettings.numberRanges[difficulty];
-    
+
     session.problems = [];
-    
+
     for (let i = 0; i < problemCount; i++) {
         const operation = operations[Math.floor(Math.random() * operations.length)];
         const problem = generateSingleProblem(operation, range);
@@ -243,25 +243,24 @@ function generateSingleProblem(operation, range) {
             const unit = Math.random() < 0.5 ? 'deg' : 'rad';
 
             const specialAngles = [
-               [
-                    { "deg": 0, "rad": "0", "sin": "0", "cos": "1", "tan": "0" },
-                    { "deg": 30, "rad": "π/6", "sin": "1/2", "cos": "√3/2", "tan": "√3/3" },
-                    { "deg": 45, "rad": "π/4", "sin": "√2/2", "cos": "√2/2", "tan": "1" },
-                    { "deg": 60, "rad": "π/3", "sin": "√3/2", "cos": "1/2", "tan": "√3" },
-                    { "deg": 90, "rad": "π/2", "sin": "1", "cos": "0", "tan": "undefined" },
-                    { "deg": 120, "rad": "2π/3", "sin": "√3/2", "cos": "-1/2", "tan": "-√3" },
-                    { "deg": 135, "rad": "3π/4", "sin": "√2/2", "cos": "-√2/2", "tan": "-1" },
-                    { "deg": 150, "rad": "5π/6", "sin": "1/2", "cos": "-√3/2", "tan": "-√3/3" },
-                    { "deg": 180, "rad": "π", "sin": "0", "cos": "-1", "tan": "0" },
-                    { "deg": 210, "rad": "7π/6", "sin": "-1/2", "cos": "-√3/2", "tan": "√3/3" },
-                    { "deg": 225, "rad": "5π/4", "sin": "-√2/2", "cos": "-√2/2", "tan": "1" },
-                    { "deg": 240, "rad": "4π/3", "sin": "-√3/2", "cos": "-1/2", "tan": "√3" },
-                    { "deg": 270, "rad": "3π/2", "sin": "-1", "cos": "0", "tan": "undefined" },
-                    { "deg": 300, "rad": "5π/3", "sin": "-√3/2", "cos": "1/2", "tan": "-√3" },
-                    { "deg": 315, "rad": "7π/4", "sin": "-√2/2", "cos": "√2/2", "tan": "-1" },
-                    { "deg": 330, "rad": "11π/6", "sin": "-1/2", "cos": "√3/2", "tan": "-√3/3" },
-                    { "deg": 360, "rad": "2π", "sin": "0", "cos": "1", "tan": "0" }
-                ];
+                { "deg": 0, "rad": "0", "sin": "0", "cos": "1", "tan": "0" },
+                { "deg": 30, "rad": "π/6", "sin": "1/2", "cos": "√3/2", "tan": "√3/3" },
+                { "deg": 45, "rad": "π/4", "sin": "√2/2", "cos": "√2/2", "tan": "1" },
+                { "deg": 60, "rad": "π/3", "sin": "√3/2", "cos": "1/2", "tan": "√3" },
+                { "deg": 90, "rad": "π/2", "sin": "1", "cos": "0", "tan": "undefined" },
+                { "deg": 120, "rad": "2π/3", "sin": "√3/2", "cos": "-1/2", "tan": "-√3" },
+                { "deg": 135, "rad": "3π/4", "sin": "√2/2", "cos": "-√2/2", "tan": "-1" },
+                { "deg": 150, "rad": "5π/6", "sin": "1/2", "cos": "-√3/2", "tan": "-√3/3" },
+                { "deg": 180, "rad": "π", "sin": "0", "cos": "-1", "tan": "0" },
+                { "deg": 210, "rad": "7π/6", "sin": "-1/2", "cos": "-√3/2", "tan": "√3/3" },
+                { "deg": 225, "rad": "5π/4", "sin": "-√2/2", "cos": "-√2/2", "tan": "1" },
+                { "deg": 240, "rad": "4π/3", "sin": "-√3/2", "cos": "-1/2", "tan": "√3" },
+                { "deg": 270, "rad": "3π/2", "sin": "-1", "cos": "0", "tan": "undefined" },
+                { "deg": 300, "rad": "5π/3", "sin": "-√3/2", "cos": "1/2", "tan": "-√3" },
+                { "deg": 315, "rad": "7π/4", "sin": "-√2/2", "cos": "√2/2", "tan": "-1" },
+                { "deg": 330, "rad": "11π/6", "sin": "-1/2", "cos": "√3/2", "tan": "-√3/3" },
+                { "deg": 360, "rad": "2π", "sin": "0", "cos": "1", "tan": "0" }
+            ];
 
             let angle = specialAngles[Math.floor(Math.random() * specialAngles.length)];
             // Ensure tan is not undefined
@@ -470,7 +469,7 @@ function checkAnswer(selectedAnswer) {
 
             // Check for streak achievements
             checkStreakAchievements();
-            
+
             setTimeout(nextProblem, 1000);
         } else {
             session.incorrect++;
@@ -486,7 +485,7 @@ function checkAnswer(selectedAnswer) {
             });
 
             showFeedback(false, 'Not quite right.', `The correct answer is ${problem.answer}`);
-            
+
             setTimeout(() => {
                 document.getElementById('next-button').classList.remove('hidden');
             }, 200);
@@ -511,7 +510,7 @@ function checkAnswer(selectedAnswer) {
             });
         } else {
             const submitButton = document.querySelector('.answer-section .btn');
-            if(submitButton) {
+            if (submitButton) {
                 submitButton.disabled = true;
             }
         }
@@ -523,7 +522,7 @@ function checkAnswer(selectedAnswer) {
 
 function categorizeError(problem, userAnswer) {
     const diff = Math.abs(parseFloat(userAnswer) - problem.answer);
-    
+
     if (problem.timeEnded - problem.timeStarted < 3000) {
         return 'time_pressure_error';
     } else if (diff === 1) {
@@ -540,18 +539,18 @@ function showFeedback(correct, message, explanation = '') {
     const icon = document.getElementById('feedback-icon');
     const messageEl = document.getElementById('feedback-message');
     const explanationEl = document.getElementById('feedback-explanation');
-    
+
     feedback.className = correct ? 'feedback correct' : 'feedback incorrect';
     icon.textContent = correct ? '✓' : '✗';
     messageEl.textContent = message;
-    
+
     if (explanation) {
         explanationEl.textContent = explanation;
         explanationEl.classList.remove('hidden');
     } else {
         explanationEl.classList.add('hidden');
     }
-    
+
     feedback.classList.remove('hidden');
 }
 
@@ -559,7 +558,7 @@ function showFeedback(correct, message, explanation = '') {
 function nextProblem() {
     const session = appState.currentSession;
     session.currentProblemIndex++;
-    
+
     if (session.currentProblemIndex >= session.problems.length) {
         endSession();
     } else {
@@ -572,16 +571,16 @@ function endSession() {
         if (appState.timer) {
             clearInterval(appState.timer);
         }
-        
+
         const session = appState.currentSession;
         session.endTime = Date.now();
-        
+
         // Calculate final stats
         const totalTime = (session.endTime - session.startTime) / 1000;
         const averageTime = totalTime / session.problems.length;
         const totalAnswered = session.correct + session.incorrect;
         const accuracy = totalAnswered > 0 ? (session.correct / totalAnswered) * 100 : 0;
-        
+
         // Save to history
         appState.sessionHistory.push({
             date: new Date().toLocaleDateString(),
@@ -593,10 +592,10 @@ function endSession() {
             operations: session.settings.operations.join(', '),
             difficulty: session.settings.difficulty
         });
-        
+
         // Check achievements
         const newAchievements = checkAchievements(accuracy);
-        
+
         // Update results screen
         updateResultsScreen(session, accuracy, averageTime, newAchievements);
         showScreen('results');
@@ -611,15 +610,15 @@ function updateResultsScreen(session, accuracy, averageTime, newAchievements) {
     document.getElementById('problems-correct').textContent = `${session.correct}/${session.problems.length}`;
     document.getElementById('average-time').textContent = `${averageTime.toFixed(1)}s`;
     document.getElementById('best-streak').textContent = session.bestStreak;
-    
+
     // Show achievements
     const achievementsSection = document.getElementById('achievements-section');
     const achievementsList = document.getElementById('new-achievements');
-    
+
     if (newAchievements.length > 0) {
         achievementsSection.style.display = 'block';
         achievementsList.innerHTML = '';
-        
+
         newAchievements.forEach(achievement => {
             const badge = createAchievementBadge(achievement);
             achievementsList.appendChild(badge);
@@ -632,14 +631,14 @@ function updateResultsScreen(session, accuracy, averageTime, newAchievements) {
 function checkAchievements(accuracy) {
     const newAchievements = [];
     let statsChanged = false;
-    
+
     gameData.achievements.forEach(achievement => {
         if (appState.userStats.achievementsUnlocked.includes(achievement.id)) {
             return;
         }
-        
+
         let unlocked = false;
-        
+
         switch (achievement.id) {
             case 'accuracy_80':
                 unlocked = accuracy >= 80;
@@ -666,33 +665,33 @@ function checkAchievements(accuracy) {
                 unlocked = appState.userStats.totalProblems >= 500;
                 break;
         }
-        
+
         if (unlocked) {
             appState.userStats.achievementsUnlocked.push(achievement.id);
             newAchievements.push(achievement);
             statsChanged = true;
         }
     });
-    
+
     if (statsChanged) {
         saveUserStats();
     }
-    
+
     return newAchievements;
 }
 
 function checkStreakAchievements() {
     const streak = appState.userStats.currentStreak;
     let achievementUnlocked = false;
-    
+
     if ((streak === 10 && !appState.userStats.achievementsUnlocked.includes('streak_10')) ||
         (streak === 25 && !appState.userStats.achievementsUnlocked.includes('streak_25'))) {
-        
-        const achievement = gameData.achievements.find(a => 
-            (a.id === 'streak_10' && streak === 10) || 
+
+        const achievement = gameData.achievements.find(a =>
+            (a.id === 'streak_10' && streak === 10) ||
             (a.id === 'streak_25' && streak === 25)
         );
-        
+
         if (achievement && !appState.userStats.achievementsUnlocked.includes(achievement.id)) {
             appState.userStats.achievementsUnlocked.push(achievement.id);
             showAchievementModal(achievement);
@@ -730,23 +729,23 @@ function closeAchievementModal() {
 // Error analysis
 function updateErrorAnalysis() {
     if (!appState.currentSession) return;
-    
+
     const session = appState.currentSession;
     const errors = session.errors;
-    
+
     document.getElementById('total-errors').textContent = errors.length;
     const errorRate = ((errors.length / session.problems.length) * 100).toFixed(0);
     document.getElementById('error-rate').textContent = `${errorRate}%`;
-    
+
     // Error categories
     const categoryList = document.getElementById('error-category-list');
     categoryList.innerHTML = '';
-    
+
     const categoryCounts = {};
     errors.forEach(error => {
         categoryCounts[error.category] = (categoryCounts[error.category] || 0) + 1;
     });
-    
+
     Object.entries(categoryCounts).forEach(([category, count]) => {
         const item = document.createElement('div');
         item.className = 'category-item';
@@ -756,11 +755,11 @@ function updateErrorAnalysis() {
         `;
         categoryList.appendChild(item);
     });
-    
+
     // Missed problems
     const problemsList = document.getElementById('missed-problems-list');
     problemsList.innerHTML = '';
-    
+
     errors.forEach(error => {
         const item = document.createElement('div');
         item.className = 'problem-item';
@@ -770,11 +769,11 @@ function updateErrorAnalysis() {
         `;
         problemsList.appendChild(item);
     });
-    
+
     // Tips
     const tipsList = document.getElementById('tips-list');
     tipsList.innerHTML = '';
-    
+
     const operations = [...new Set(errors.map(e => e.problem.operation))];
     operations.forEach(operation => {
         const tips = gameData.helpfulTips[operation];
@@ -797,8 +796,8 @@ function formatCategoryName(category) {
 function updateWelcomeStats() {
     try {
         document.getElementById('total-problems-solved').textContent = appState.userStats.totalProblems;
-        
-        const accuracy = appState.userStats.totalProblems > 0 ? 
+
+        const accuracy = appState.userStats.totalProblems > 0 ?
             Math.round((appState.userStats.totalCorrect / appState.userStats.totalProblems) * 100) : 0;
         document.getElementById('overall-accuracy').textContent = `${accuracy}%`;
         document.getElementById('current-streak').textContent = appState.userStats.currentStreak;
@@ -811,16 +810,16 @@ function updateProgressDisplay() {
     try {
         // Update overview stats
         document.getElementById('lifetime-problems').textContent = appState.userStats.totalProblems;
-        
-        const accuracy = appState.userStats.totalProblems > 0 ? 
+
+        const accuracy = appState.userStats.totalProblems > 0 ?
             Math.round((appState.userStats.totalCorrect / appState.userStats.totalProblems) * 100) : 0;
         document.getElementById('lifetime-accuracy').textContent = `${accuracy}%`;
         document.getElementById('sessions-completed').textContent = appState.sessionHistory.length;
-        
+
         // Update achievements display
         const achievementsGrid = document.getElementById('all-achievements');
         achievementsGrid.innerHTML = '';
-        
+
         gameData.achievements.forEach(achievement => {
             const unlocked = appState.userStats.achievementsUnlocked.includes(achievement.id);
             const item = document.createElement('div');
@@ -832,11 +831,11 @@ function updateProgressDisplay() {
             `;
             achievementsGrid.appendChild(item);
         });
-        
+
         // Update session history
         const sessionList = document.getElementById('session-history');
         sessionList.innerHTML = '';
-        
+
         const recentSessions = appState.sessionHistory.slice(-5).reverse();
         recentSessions.forEach(session => {
             const item = document.createElement('div');
@@ -864,16 +863,16 @@ function practiceWeakAreas() {
         alert('No errors to practice!');
         return;
     }
-    
+
     // Set up practice session with similar problems
     const errors = appState.currentSession.errors;
     const operations = [...new Set(errors.map(e => e.problem.operation))];
-    
+
     // Update settings checkboxes
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = operations.includes(checkbox.value);
     });
-    
+
     showScreen('settings');
 }
 
@@ -882,11 +881,11 @@ function initApp() {
     try {
         loadUserStats();
         updateWelcomeStats();
-        
+
         // Add enter key support for answer input
         const answerInput = document.getElementById('answer-input');
         if (answerInput) {
-            answerInput.addEventListener('keypress', function(e) {
+            answerInput.addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     const nextButton = document.getElementById('next-button');
                     if (!nextButton.classList.contains('hidden')) {
@@ -897,7 +896,7 @@ function initApp() {
                 }
             });
         }
-        
+
         console.log('Math Calculator Trainer initialized successfully');
     } catch (error) {
         console.error('Error initializing app:', error);
